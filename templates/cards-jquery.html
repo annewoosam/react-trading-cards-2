@@ -22,6 +22,16 @@
     function getCardData() {
       // Get the up to date card data from DB.
 
+      // GetCard Data function takes your response to the add card and skill input areas on the html form and
+      // adds to the container, which at first has no values
+      // and also inserts a default image called placeholder
+      // then empties the list
+
+      // AJAX and jQuery are used.
+      // per instructions: "An HTTP request is sent to the route /cards.json
+      // In /cards.json, the back end issues a SQLAlchemy query to get all the cards out of the database. Then, each card is turned into a dictionary, and sent back to the front end as a JSON object.
+      // When the response returns, the function insertCardData is called."
+
       $.get('/cards.json', insertCardData);
     }
 
@@ -29,11 +39,15 @@
       // Once the data has been provided by the server,
       // insert it into the page as an HTML string.
 
-      const listOfCards = response.cards;
+      const listOfCards = response;
 
       const container = $('#container');
 
+    // we empty the container so we can get another card.
+
       container.empty()
+
+// we add the name, skill and default image to the card list 
 
       for (const currentCard of listOfCards) {
         if (currentCard.imgUrl === null){
@@ -65,6 +79,8 @@
         name: name
       };
 
+//add information back to page
+
       $.post('/add-card', formData, (response) => {
         // Great, so now we're back from the server.
         // A new card got added!
@@ -73,6 +89,9 @@
         // This will 1) get the card data again and
         // 2) update the DOM with most 'fresh' card data that
         // include the new card.
+        
+        // Because AJAX  does not page refresh it must be told to display the new data
+
         // For information on how, go review this next function's
         // definition above.
         getCardData();
