@@ -1,23 +1,49 @@
+var tradingCardData = [
+  {
+    name: 'Balloonicorn',
+    skill: 'video games',
+    imgUrl: '/static/img/balloonicorn.jpg'
+  },
+
+  {
+    name: 'Float',
+    skill: 'baking pretzels',
+    imgUrl: '/static/img/float.jpg'
+  },
+
+  {
+    name: 'Llambda',
+    skill: 'knitting scarves',
+    imgUrl: '/static/img/llambda.jpg'
+  }
+];
 
 function TradingCard(props) {
   return (
     <div className="card">
-      <p> Name: {props.name} </p>
+      <p>Name: {props.name}</p>
       <img src={props.imgUrl} />
-      <p> Skill: {props.skill} </p>
+      <p>Skill: {props.skill} </p>
     </div>
   );
 }
 
 function TradingCardContainer() {
 
-  const [cards, updateCards] = React.useState([]);
 
-  React.useEffect(() => {
+ const floatCard = {
+    name: 'Float',
+    skill: 'baking pretzels',
+    imgUrl: '/static/img/float.jpg'
+  };
+
+   React.useEffect((floatCard) => {
     fetch('/cards.json')
     .then((response) => response.json())
-    .then((data) => updateCards(data))
+    .then((DATA) => updateCards(DATA))
   }, [])
+
+  const [cards, updateCards] = React.useState([floatCard])
 
   const tradingCards = [];
 
@@ -29,14 +55,16 @@ function TradingCardContainer() {
         skill={currentCard.skill}
         imgUrl={currentCard.imgUrl}
       />
+
     );
   }
 
   return (
     <div>{tradingCards}</div>
   );
-
 }
 
-
-ReactDOM.render(<TradingCardContainer />, document.getElementById('container'));
+ReactDOM.render(
+  <TradingCardContainer />,
+  document.getElementById('container')
+);
